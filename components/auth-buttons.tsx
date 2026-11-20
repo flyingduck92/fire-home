@@ -23,8 +23,9 @@ function AuthButtons() {
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end' className='min-w-53'>
-              <DropdownMenuLabel className='flex flex-col'>
+            <DropdownMenuContent onCloseAutoFocus={e => e.preventDefault()} align='end'
+              className='min-w-55 bg-sky-950 text-white shadow-sky-200'>
+              <DropdownMenuLabel className='flex flex-col text-white'>
                 <span>{auth.currentUser.displayName}</span>
                 <span className='font-normal text-xs'>{auth.currentUser.email}</span>
               </DropdownMenuLabel>
@@ -32,12 +33,16 @@ function AuthButtons() {
               <DropdownMenuItem asChild>
                 <Link href="/account">My Account</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/admin-dashboard">Admin Dashboard</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/account/my-favourite">My Favourite</Link>
-              </DropdownMenuItem>
+              {!!auth.customClaims?.admin &&
+                <DropdownMenuItem asChild>
+                  <Link href="/admin-dashboard">Admin Dashboard</Link>
+                </DropdownMenuItem>
+              }
+              {!auth.customClaims?.admin &&
+                <DropdownMenuItem asChild>
+                  <Link href="/account/my-favourite">My Favourite</Link>
+                </DropdownMenuItem>
+              }
               <DropdownMenuItem onClick={async () => await auth.logout()}>
                 Logout
               </DropdownMenuItem>
