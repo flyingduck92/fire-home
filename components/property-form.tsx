@@ -24,9 +24,10 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 
 export type Props = {
   handleSubmitAction: (data: z.infer<typeof propertyDataSchema>) => void
+  submitButtonLabel: React.ReactNode
 }
 
-export default function PropertyForm({ handleSubmitAction }: Props) {
+export default function PropertyForm({ handleSubmitAction, submitButtonLabel }: Props) {
   const form = useForm({
     resolver: zodResolver(propertyDataSchema),
     defaultValues: {
@@ -44,8 +45,8 @@ export default function PropertyForm({ handleSubmitAction }: Props) {
 
   return (
     <form id="property-form" onSubmit={form.handleSubmit(handleSubmitAction)}>
-      <div className='grid grid-cols-2'>
-        <FieldGroup>
+      <div className='grid grid-cols-2 gap-4'>
+        <FieldGroup className='gap-4'>
           <Controller
             name="status"
             control={form.control}
@@ -76,7 +77,7 @@ export default function PropertyForm({ handleSubmitAction }: Props) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="property-form-address1">Address 1</FieldLabel>
+                <FieldLabel htmlFor="property-form-address1">Address Line 1</FieldLabel>
                 <Input {...field}
                   id="property-form-address1"
                   aria-invalid={fieldState.invalid}
@@ -94,7 +95,7 @@ export default function PropertyForm({ handleSubmitAction }: Props) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="property-form-address2">Address 2</FieldLabel>
+                <FieldLabel htmlFor="property-form-address2">Address Line 2</FieldLabel>
                 <Input {...field}
                   id="property-form-address2"
                   aria-invalid={fieldState.invalid}
@@ -144,7 +145,97 @@ export default function PropertyForm({ handleSubmitAction }: Props) {
             )}
           />
         </FieldGroup>
+        <FieldGroup className='gap-4'>
+          <Controller
+            name="price"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="property-form-price">Price</FieldLabel>
+                <Input {...field}
+                  type="number"
+                  value={field.value as number}
+                  id="property-form-price"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="bedroom"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="property-form-bedroom">Bedroom</FieldLabel>
+                <Input {...field}
+                  type="number"
+                  value={field.value as number}
+                  id="property-form-bedroom"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="bathroom"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="property-form-bathroom">Bathroom</FieldLabel>
+                <Input {...field}
+                  type="number"
+                  value={field.value as number}
+                  id="property-form-bathroom"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="description"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="property-form-description">
+                  Description
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupTextarea
+                    {...field}
+                    placeholder="Write property description and facilities here"
+                    id="property-form-description"
+                    className="max-h-16 overflow-y-auto resize-none"
+                    aria-invalid={fieldState.invalid}
+                  />
+                  <InputGroupAddon align="block-end">
+                    <InputGroupText className="tabular-nums">
+                      {field.value.length} characters
+                    </InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
+                <FieldDescription className='text-gray-800 font-semibold'>
+                  Please include other facilities and aminities on description
+                </FieldDescription>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+        </FieldGroup>
       </div>
+      <Button type="submit" className="max-w-md mx-auto mt-2 w-full flex gap-2">
+        {submitButtonLabel}
+      </Button>
     </form>
   )
 }

@@ -9,7 +9,7 @@ export const propertyDataSchema = z.object({
     return postcodeRegex.test(postcode)
   }, "Invalid UK Postcode"),
   price: z.coerce.number().positive("Price must be greater than 0"),
-  description: z.string().min(0, "Description must contain at least 40 chareacters"),
+  description: z.string().min(40, "Description must contain at least 40 characters"),
   bedroom: z.coerce.number().min(0, "Bedroom must be at least 0"),
   bathroom: z.coerce.number().min(0, "Bathroom must be at least 0"),
   status: z.enum(["draft", "for-sale", "withdrawn", "sold"]),
